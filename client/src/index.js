@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './pages/App'
-import { BrowserRouter } from 'react-router-dom'
+import Account from './pages/Account'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { UserProvider, UserConsumer } from './contexts/UserContext'
 import Login from './pages/Login'
 
@@ -19,7 +20,17 @@ ReactDOM.render(
         <UserConsumer>
           {({ user  }) =>
             user ? (
-              <App />
+              <Switch>
+
+                <Route exact path='/'>
+                  <App />
+                </Route>
+
+                <Route path='/account'>
+                  <Account />
+                </Route>
+
+              </Switch>
             ) : (
               <Login  /> 
               )
