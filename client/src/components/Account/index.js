@@ -71,8 +71,7 @@ function Account() {
         anchorEl={ref.current}
         open={isOpen}
       >
-        <MenuItem
-        >
+        <MenuItem>
           Profile
         </MenuItem>
         <MenuItem

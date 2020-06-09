@@ -2,6 +2,8 @@
  import styled from 'styled-components'
  import Header from '../components/Header'
  import Profile from '../components/Profile'
+ import ProfileStats from '../components/ProfileStats'
+ import ProfileTabs from '../components/ProfileTabs'
  import {
    Grid,
    Container,
@@ -16,11 +18,9 @@
     paddingBottom: theme.spacing(3)
   },
   container: {
-    [theme.breakpoints.up('lg')]: {
-      paddingLeft: 64,
-      paddingRight: 64,
-      marginTop: '8%',
-    }
+    flexGrow: 1,
+    padding: '5%',
+    minHeight: '92%'
   }
 }));
 
@@ -38,8 +38,7 @@ export default function Account() {
         <Header />
       </HeaderWrapper>
 
-      <Container
-        maxWidth={false}
+      <div
         className={classes.container}
       >
         <Grid
@@ -49,31 +48,26 @@ export default function Account() {
           <Grid
             item
             xs={4}
-            height={20}
           >
             <Profile />
           </Grid>
           <Grid
             item
             xs={8}
-            height={20}
           >
-            <div>
-              Stats
-            </div>
+            <ProfileStats />
           </Grid>
 
           <Grid
-            container
+            container item
             spacing={3}
             xs={12}
-            height={80}>
-              <div>
-                Playlists
-              </div>
+            height={200}>
+              <ProfileTabs />
           </Grid>
         </Grid>
-      </Container>
+      </div>
+      
     </>
   )
 }

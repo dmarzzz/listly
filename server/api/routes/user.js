@@ -50,7 +50,6 @@ module.exports = async function (server) {
                             });
                     } else {
                         // Issue token
-                        console.log('In there')
                         const payload = { email };
                         const token = jwt.sign(payload, secret, {
                             expiresIn: '1h'

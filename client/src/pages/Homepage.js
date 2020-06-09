@@ -33,7 +33,7 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
 `
 
-export default function App() {
+export default function Homepage() {
   const classes = useStyles();
   return (
     <>
