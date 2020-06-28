@@ -15,7 +15,13 @@ const UserSchema = new mongoose.Schema({
   following: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
-  }]
+  }],
+
+  followers: {
+    type: Number,
+    default: 0,
+    min: 0
+  }
 });
 
 UserSchema.pre('save', function(next) {

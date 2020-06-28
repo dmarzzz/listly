@@ -34,7 +34,6 @@ module.exports = function (server) {
 
   server.post('/unlikePlaylist', async function(req, res) {
     const id = mongoose.Types.ObjectId(req.query.id);
-    console.log(id);
     // Manually setting while withAuth is resolved
     req.email = 'test'
 
@@ -50,16 +49,48 @@ module.exports = function (server) {
     }
   });
 
-  server.post('/followUser', withAuth, async function(req, res) {
+  server.post('/followUser',  async function(req, res) {
     const id = req.query.id;
+    // Manually setting while withAuth is resolved
+    req.email = 'test'
 
     try {
-      let user = await User.findOne({email: req.email});
-      res.send(200);
+      await User.findOneAndUpdate({email: req.email}, {
+        $push: {following: id}
+      });
+      await User.findOneAndUpdate({_id: id}, {
+        $inc: {followers: 1}
+      });
+      res.sendStatus(200);
     } catch (error) {
       console.log(error)
-      res.send(500);
+      res.sendStatus(500);
     }
   });
+
+  server.post('/unfollowUser', async function(req, res) {
+    const id = req.query.id
+    // Manually setting while withAuth is resolved
+    req.email = 'test'
+
+    try {
+      await User.findOneAndUpdate({email: req.email}, {
+        $pullAll: {following: [ id ]}
+      })
+      await User.findById({_id: id}, function(err, result){
+        if (err){
+          console.log(err);
+          return res.send(500);
+        }
+        result.followers = result.followers - 1;
+        if (result.followers < 0) result.followers = 0
+        result.save();
+      })
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error)
+      res.sendStatus(500);
+    }
+  })
 
 }
