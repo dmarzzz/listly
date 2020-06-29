@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const secret = 'notsecret';
+const secret = 'notProd';
 
 const withAuth = function(req, res, next) {
   const token = 
