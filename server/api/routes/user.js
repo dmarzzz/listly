@@ -1,7 +1,7 @@
 const User = require('../../models/User.js');
 const withAuth = require('../middleware');
 const jwt = require('jsonwebtoken');
-const secret = 'notProd';
+const secret = 'notsecret';
 
 module.exports = async function (server) {
 

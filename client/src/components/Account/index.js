@@ -1,5 +1,6 @@
 import React, { useRef, useState} from 'react';
 import { makeStyles, Typography, MenuItem, Menu, Hidden, ButtonBase, Box, Avatar} from '@material-ui/core';
+import {Link} from 'react-router-dom';
 import { UserConsumer } from '../../contexts/UserContext';
 
 const account = {
@@ -32,6 +33,11 @@ function Account() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const spotifyConnect = () => {
+    window.location.href = 'http://localhost:7373/spotifyLink';
+    return null;
+  }
 
 
   return (
@@ -71,14 +77,18 @@ function Account() {
         anchorEl={ref.current}
         open={isOpen}
       >
-        <MenuItem
-        >
+        <MenuItem>
           Profile
         </MenuItem>
-        <MenuItem
-        >
+
+        <MenuItem>
           Account
         </MenuItem>
+
+        <MenuItem onClick={spotifyConnect}>
+            Spotify Connect
+        </MenuItem>
+
         <MenuItem onClick={onLogout}>
           Logout
         </MenuItem>
