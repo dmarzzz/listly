@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import PlaylistFeed from '../../src/components/PlaylistFeed' //not sure why importing this like the comp below doesnt work
 import FriendPlaylistFeed from '../components/FriendFeed'
+import Playlist from '../components/Playlist'
 import {
   Grid,
   Container,
   makeStyles
 } from '@material-ui/core';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,15 +37,14 @@ const HeaderWrapper = styled.div`
 
 //TO-DO: Move all this to a homepage component
 
-export default function App() {
+export default function Home() {
   const classes = useStyles();
   return (
     <>
       <HeaderWrapper>
         <Header />
       </HeaderWrapper>
-
-      <Container
+      /* <Container
         maxWidth={false}
         className={classes.container}
       >
@@ -68,7 +69,7 @@ export default function App() {
             <FriendPlaylistFeed />
           </Grid>
         </Grid>
-      </Container>
+      </Container> 
     </>
   )
 }

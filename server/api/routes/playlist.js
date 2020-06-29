@@ -1,15 +1,17 @@
 const Playlist = require('../../models/Playlist.js');
-const mockPlaylist = require('../../mock/mockPlaylist.json');
-const playlistParser = require('../parsers/spotifyParser.js');
+const playlistCopy = require('../../mock/playlistCopy.json');
+const playlistParser = require('../parsers/playlistParser.js');
 
 module.exports = function (server) {
 
   server.get('/bootstrapPlaylists', async function (req, res, next) {
     try {
-      let playlist = await playlistParser.parsePlaylist(mockPlaylist)
-      playlist.save() 
+      let playlist = await playlistParser.parsePlaylist(playlistCopy)
+      playlist.save()
+      res.status(200).send();
     } catch (error) {
       console.log(error)
+      res.status(500).send();
     }
   })
 
@@ -29,6 +31,7 @@ module.exports = function (server) {
 
   server.get('/api/playlists', async function (req, res, next) {
     try {
+      console.log("hey")
       let playlists = await Playlist.find({}).limit(10).populate({
         path: 'tracks',
         populate: { path: 'track' }

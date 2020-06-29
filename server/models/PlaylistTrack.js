@@ -13,9 +13,8 @@ const PlaylistTrackSchema = new mongoose.Schema({
   },
 
   track: {
-    // MongoDB Track ID which will hold the spotify ID
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Track'
   }
 
 })
