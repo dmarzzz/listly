@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import Header from '../components/Header'
 import PlaylistFeed from '../../src/components/PlaylistFeed' //not sure why importing this like the comp below doesnt work
 import FriendPlaylistFeed from '../components/FriendFeed'
+import Playlist from '../components/Playlist'
 import {
   Grid,
   Container,
   makeStyles
 } from '@material-ui/core';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,12 +44,16 @@ export default function App() {
       <HeaderWrapper>
         <Header />
       </HeaderWrapper>
+    {/* testing new component */}
 
-      <Container
+ 
+
+      /* <Container
         maxWidth={false}
         className={classes.container}
       >
-        <Grid
+         <Playlist/>
+        {/* <Grid
           container
           spacing={3}
         >
@@ -67,8 +73,8 @@ export default function App() {
           >
             <FriendPlaylistFeed />
           </Grid>
-        </Grid>
-      </Container>
+        </Grid> */}
+      </Container> 
     </>
   )
 }
