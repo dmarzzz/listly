@@ -37,23 +37,18 @@ const HeaderWrapper = styled.div`
 
 //TO-DO: Move all this to a homepage component
 
-export default function App() {
+export default function Home() {
   const classes = useStyles();
   return (
     <>
       <HeaderWrapper>
         <Header />
       </HeaderWrapper>
-    {/* testing new component */}
-
- 
-
       /* <Container
         maxWidth={false}
         className={classes.container}
       >
-         <Playlist/>
-        {/* <Grid
+        <Grid
           container
           spacing={3}
         >
@@ -73,7 +68,7 @@ export default function App() {
           >
             <FriendPlaylistFeed />
           </Grid>
-        </Grid> */}
+        </Grid>
       </Container> 
     </>
   )
