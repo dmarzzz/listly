@@ -20,6 +20,9 @@
     "mongoose": "^5.9.11",
     "nodemon": "^2.0.3",
     "request": "^2.88.2",
-    "require": "^2.4.20"
+    "require": "^2.4.20",
+    "spotify-web-api-js": "^1.4.0",
+    "spotify-web-api-node": "^4.0.0",
+    "xmlhttprequest": "^1.8.0"
   }
 }

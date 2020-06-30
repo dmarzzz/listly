@@ -1,13 +1,18 @@
+var Spotify = require('spotify-web-api-node');
 const withAuth = require('../middleware');
 var querystring = require('querystring');
 var request = require('request');
+
 const User = require('../../models/User');
+const Playlist = require('../../models/Playlist.js');
+const playlistParser = require('../parsers/playlistParser.js');
 
 const client_id = '93a6e3ba310e4b55895c01a627238018';
 const client_secret = '29fbc46f70bb4912826a4ca5df80b78b';
 const redirect_uri = 'http://localhost:7373/spotifyCallback'
 
 const stateKey = 'spotify_auth_state';
+const spotifyWebApi = new Spotify();
 
 const generateRandomString = function(length) {
   var text = '';
@@ -85,7 +90,6 @@ module.exports = async function (server) {
             user.spotifyId = body.id;
             user.spotDisplayName = body.display_name;
             user.spotProfileImage = body.images[0].url;
-            console.log(user);
             await user.save()
           });
 
@@ -100,5 +104,80 @@ module.exports = async function (server) {
       });
     }
   });
+
+  server.get('/refreshPlaylists', withAuth, async function(req, res) {
+
+    try{
+      const user = await User.findOne({'email': req.email});
+      console.log(user);
+      let items = [];
+
+      let next = 'https://api.spotify.com/v1/me/playlists';
+      let body = '';
+      while (true) {
+        await getPlaylists(next, user.accessToken).then((data) => {
+          body = data;
+        })
+        items.push.apply(items, body.items);
+        if (body.next) {
+          next = body.next;
+        } else {
+          break;
+        }
+      }
+
+      items.forEach(async (playlist) => {
+        if (playlist.owner.id === user.spotifyId) {
+          await loadPlaylists( 'https://api.spotify.com/v1/playlists/' + playlist.id
+            , user.accessToken).then((data) => {
+            console.log(data);
+          });
+        }
+      })
+
+      res.sendStatus(200);
+    } catch(error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+
+  });
+
+  function getPlaylists(url, accessToken) {
+    const options = {
+      url: url,
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      }
+    }
+    return new Promise((resolve, reject) => {
+      request.get(options, (err, response, body) => {
+        if(err) console.log(err);
+        body = JSON.parse(body);
+        console.log('Next: ', body.next);
+        resolve(body);
+      })
+    });
+  }
+
+  async function loadPlaylists(url, accessToken) {
+    const options = {
+      url: url,
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      }
+    }
+
+    return new Promise( async (resolve, reject) => {
+      request.get(options, async (err, response, body) => {
+        if(err) console.log(err);
+        body = JSON.parse(body);
+        console.log(body);
+        let playlist = await playlistParser.parsePlaylist(body);
+        playlist.save();
+        resolve(playlist.name);
+      })
+    })
+  }
 
 }
