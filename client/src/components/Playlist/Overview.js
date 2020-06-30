@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Overview({ className, ...rest }) {
+function Overview(props, { className, ...rest }) {
+  
   const classes = useStyles();
   const overview = {
     income: '854,355.00',
@@ -77,7 +78,7 @@ function Overview({ className, ...rest }) {
               variant="h3"
               color="textPrimary"
             >
-              GrooveMachine
+              {props.data.owner}
             </Typography>
             <Label
               className={classes.label}
@@ -107,14 +108,13 @@ function Overview({ className, ...rest }) {
               variant="h3"
               color="textPrimary"
             >
-
-              {overview.expanses}
+              {props.data.followers}
             </Typography>
             <Label
               className={classes.label}
               color="success"
             >
-              +12%
+              +0%
             </Label>
           </div>
         </Grid>

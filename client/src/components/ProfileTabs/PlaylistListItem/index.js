@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { makeStyles, Card, Typography, Grid, CardHeader, CardContent
   , CardMedia, CardActions, Collapse, IconButton, ListItem, ListItemText} from '@material-ui/core'
+import {Link}  from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -47,7 +48,8 @@ export default function PlaylistListItem(props) {
 
   return (
     <Grid item xs={4}>
-      <Card className={classes.root} border={1} onClick={handleExpandClick}>
+    <Link to= { "/playlist/" + props.playlist._id } style={{ textDecoration: 'none' }} >
+      <Card className={classes.root} border={1} >
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <Typography component="h5" carient="h5">
@@ -71,15 +73,16 @@ export default function PlaylistListItem(props) {
           />
         </div>
 
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <ol>
               {sample}
             </ol>
           </CardContent>
-        </Collapse>
+        </Collapse> */}
 
       </Card>
+      </Link>
     </Grid>
   )
 }

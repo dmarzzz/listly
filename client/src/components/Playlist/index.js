@@ -8,11 +8,14 @@ import {
 } from '@material-ui/core'
 import GenreChart from '../GenreChart'
 import Overview from './Overview'
+
+
+
+
 const columns = [
-    { id: 'rank', label: '#', align: 'inherit' },
-    { id: 'playlistName', label: 'Playlist Name', align: 'inherit' },
-    { id: 'songs', label: 'Songs', align: 'right' },
-    { id: 'upVotes', label: 'Up Votes', align: 'right' },
+    { id: 'title', label: 'Title', align: 'inherit' },
+    { id: 'artist', label: 'Artist', align: 'inherit' },
+    { id: 'album', label: 'Album', align: 'right' },
 ]
 
 const useStyles = makeStyles(() => ({
@@ -42,23 +45,32 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default function Playlist() {
+export default function Playlist(props) {
+    const {playlistID} = props.match.params
+    console.log(playlistID) // "foo"
+
     const classes = useStyles();
     const [showPlaylist, setShowplaylist] = React.useState(false);
 
     const [{ data, loading, error }] = useAxios({
-        method: 'get',
-        url: '/api/playlists'
+        method: 'post',
+        url: '/api/playlistById',
+        params : {id: playlistID}
     })
     if (error) {
         console.log(error)
     }
+
+    console.log("data is : " , data)
+    
 
     const handlePlaylistOpen = () => {
         setShowplaylist(!showPlaylist);
     };
 
     return (
+        <div>
+        {!loading ?
         <Card classes={{
             root: classes.root,
         }} >
@@ -84,7 +96,7 @@ export default function Playlist() {
                                 item
                                 xs={12}
                             >
-                                <Overview/>
+                                <Overview data={data} />
                             </Grid>
                             <Grid
                                 item
@@ -92,7 +104,7 @@ export default function Playlist() {
                                 xl={9}
                                 xs={12}
                             >
-                                {!loading ?
+                                
                                     <Card>
                                         <div className={classes.hoverEffect}>
                                             <TableContainer className={classes.root}>
@@ -103,23 +115,23 @@ export default function Playlist() {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {data.map((row) =>
+                                                        {data.tracks.map((track) =>
                                                             (
-                                                                <TableRow hover key={row.name} className={classes.title} onClick={handlePlaylistOpen}  >
+                                                                <TableRow hover key={track.name} className={classes.title} onClick={handlePlaylistOpen}  >
                                                                     <TableCell className={classes.title} scope="row"  >
-                                                                        {row.name}
+                                                                        {track.track.name}
                                                                     </TableCell>
                                                                     <TableCell scope="row" className={classes.title}  >
-                                                                        {row.name}
+                                                                        {track.track.artistName}
                                                                     </TableCell>
-                                                                    <TableCell align="right" className={classes.title} >{row.rating}</TableCell>
+                                                                    <TableCell align="right" className={classes.title} >{track.track.albumName}</TableCell>
                                                                 </TableRow>
                                                             ))}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
                                         </div>
-                                    </Card> : <div></div>}
+                                    </Card> 
                             </Grid>
                             <Grid
                                 item
@@ -136,7 +148,7 @@ export default function Playlist() {
                 </CardContent>
             </div>
 
-        </Card>
+        </Card> : <div></div>}</div>
     );
 }
 
