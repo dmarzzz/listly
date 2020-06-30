@@ -52,7 +52,7 @@ export default function Playlist(props) {
     const classes = useStyles();
     const [showPlaylist, setShowplaylist] = React.useState(false);
 
-    const [{ data, loading, error }] = useAxios({
+    const [{ data, loading, error }, refetch] = useAxios({
         method: 'post',
         url: '/api/playlistById',
         params : {id: playlistID}
@@ -67,6 +67,8 @@ export default function Playlist(props) {
     const handlePlaylistOpen = () => {
         setShowplaylist(!showPlaylist);
     };
+
+
 
     return (
         <div>
@@ -96,7 +98,7 @@ export default function Playlist(props) {
                                 item
                                 xs={12}
                             >
-                                <Overview data={data} />
+                                <Overview data={data} refetch={refetch} />
                             </Grid>
                             <Grid
                                 item

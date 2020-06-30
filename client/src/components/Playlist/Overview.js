@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -11,6 +11,8 @@ import {
 import Label from './Label';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import useAxios from 'axios-hooks'
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -39,6 +41,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Overview(props, { className, ...rest }) {
+
+  const [id , setID ] = useState(props.data.id)
+
+
+  function upVote ( input) {
+    // const [{ data2, loading2, error2 }] = useAxios({
+    //     method: 'post',
+    //     url: '/likePlaylist',
+    //     params : {id: playlistID}
+    // })
+    // if (!loading2){
+    //     console.log("result of upVote :", data2 )
+    // }
+    console.log(input);
+    axios.post(`http://localhost:7373/likePlaylist`, {  id: input})
+    .then(res => {
+      console.log(res);
+      props.refetch()
+    })
+
+}
+
   
   const classes = useStyles();
   const overview = {
@@ -138,7 +162,7 @@ function Overview(props, { className, ...rest }) {
               variant="h3"
               color="textPrimary"
             >
-              {overview.profit}
+              {props.data.likes}
             </Typography>
             <Label
               className={classes.label}
@@ -171,7 +195,7 @@ function Overview(props, { className, ...rest }) {
               {overview.subscriptions}
             </Typography> */}
 
-            <IconButton>
+            <IconButton onClick={ () => upVote(props.data._id)}>
               <ThumbUpIcon />
             </IconButton>
             <IconButton>
