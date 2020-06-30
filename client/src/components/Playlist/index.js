@@ -133,22 +133,6 @@ export default function Playlist() {
                         </Grid>
                     </Container>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </CardContent>
             </div>
 

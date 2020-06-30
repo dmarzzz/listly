@@ -5,9 +5,12 @@ import {
   Card,
   Grid,
   Typography,
-  makeStyles
+  makeStyles,
+  IconButton
 } from '@material-ui/core';
 import Label from './Label';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -104,7 +107,7 @@ function Overview({ className, ...rest }) {
               variant="h3"
               color="textPrimary"
             >
-              
+
               {overview.expanses}
             </Typography>
             <Label
@@ -161,12 +164,19 @@ function Overview({ className, ...rest }) {
             Some Other Stat
           </Typography>
           <div className={classes.valueContainer}>
-            <Typography
+            {/* <Typography
               variant="h3"
               color="textPrimary"
             >
               {overview.subscriptions}
-            </Typography>
+            </Typography> */}
+
+            <IconButton>
+              <ThumbUpIcon />
+            </IconButton>
+            <IconButton>
+              <ThumbDownIcon />
+            </IconButton>
           </div>
         </Grid>
       </Grid>
