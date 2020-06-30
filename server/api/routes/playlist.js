@@ -8,7 +8,7 @@ module.exports = function (server) {
     try {
       let playlist = await playlistParser.parsePlaylist(playlistCopy)
       playlist.save()
-      res.status(200).send();
+      res.sendStatus(200);
     } catch (error) {
       console.log(error)
       res.status(500).send();
@@ -22,7 +22,7 @@ module.exports = function (server) {
         path: 'tracks',
         populate: { path: 'track' }
       })
-      res.send(response)
+      res.send(response);
     } catch (error) {
       console.log('Error ', err)
       res.status(500).send(error)
@@ -31,8 +31,7 @@ module.exports = function (server) {
 
   server.get('/api/playlists', async function (req, res, next) {
     try {
-      console.log("hey")
-      let playlists = await Playlist.find({}).limit(10).populate({
+      let playlists = await Playlist.find({}).populate({
         path: 'tracks',
         populate: { path: 'track' }
       });

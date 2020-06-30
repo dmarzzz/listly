@@ -154,29 +154,29 @@ module.exports = async function (server) {
       request.get(options, (err, response, body) => {
         if(err) console.log(err);
         body = JSON.parse(body);
-        console.log('Next: ', body.next);
         resolve(body);
       })
     });
   }
 
   async function loadPlaylists(url, accessToken) {
-    const options = {
-      url: url,
-      headers: {
-        'Authorization': 'Bearer ' + accessToken
-      }
-    }
 
     return new Promise( async (resolve, reject) => {
-      request.get(options, async (err, response, body) => {
-        if(err) console.log(err);
-        body = JSON.parse(body);
-        console.log(body);
-        let playlist = await playlistParser.parsePlaylist(body);
-        playlist.save();
-        resolve(playlist.name);
+
+      let body = ''
+      await getPlaylists(url, accessToken).then((data) => {
+        body = data
       })
+      let next = body.tracks.next
+      while (next) {
+        await getPlaylists(next, accessToken).then((data) => {
+          body.tracks.items.push.apply(body.tracks.items, data.items)
+          next = data.next;
+        })
+      }
+      let playlist = await playlistParser.parsePlaylist(body);
+      playlist.save();
+      resolve(playlist.name);
     })
   }
 

@@ -51,7 +51,7 @@ module.exports.parsePlaylist = async (json, userID) => {
         })
         return ret
       } else {
-        return await parseTrack(trackJSON.track).save(async (err, track) => {
+        const pTrack = await parseTrack(trackJSON.track).save().then(async (track, err) => {
           if(err){
             console.log(err)
           } else {
@@ -61,15 +61,17 @@ module.exports.parsePlaylist = async (json, userID) => {
               addedBy: trackJSON.added_by.id,
               track: track._id
             })
-            return await playlistTrack.save((err, res) => {
+            const ret = await playlistTrack.save().then((res, err) => {
               if(err) {
                 console.log('Error creating playlist track', err)
               } else {
                 return res._id
               }
             })
+            return ret;
           }
         })
+        return pTrack;
       }
     }))
     return dub;
