@@ -11,7 +11,23 @@ const UserSchema = new mongoose.Schema({
   refreshToken: { type: String },
   spotifyId: { type: String },
   spotDisplayName: { type: String },
-  spotProfileImage:  { type: String }
+  spotProfileImage:  { type: String },
+
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserLike'
+  }],
+
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+
+  followers: {
+    type: Number,
+    default: 0,
+    min: 0
+  }
 
 });
 

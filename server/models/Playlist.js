@@ -47,6 +47,11 @@ const PlaylistSchema = new mongoose.Schema({
     default: 0
   },
 
+  likes: {
+    type: Number,
+    default: 0
+  },
+
   comments: {
     type: Array,
     default: []
@@ -57,6 +62,6 @@ const PlaylistSchema = new mongoose.Schema({
   ownerSpotifyID: String,
   ownerID: mongoose.Schema.Types.ObjectId
 
-})
+},{timestamps: true});
 
 module.exports = mongoose.model('Playlist', PlaylistSchema)

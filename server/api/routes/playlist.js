@@ -31,7 +31,6 @@ module.exports = function (server) {
 
   server.get('/api/playlists', async function (req, res, next) {
     try {
-      console.log("hey")
       let playlists = await Playlist.find({}).limit(10).populate({
         path: 'tracks',
         populate: { path: 'track' }
@@ -56,7 +55,7 @@ module.exports = function (server) {
           error: 'Internal error please try again'
         })
     }
-  })
+  });
 
 
 }

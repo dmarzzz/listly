@@ -52,7 +52,7 @@ module.exports = function (server) {
   server.post('/followUser',  async function(req, res) {
     const id = req.query.id;
     // Manually setting while withAuth is resolved
-    req.email = 'test'
+    req.email = 'other'
 
     try {
       await User.findOneAndUpdate({email: req.email}, {
